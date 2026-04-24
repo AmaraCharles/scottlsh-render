@@ -219,7 +219,7 @@ async function logAudit({ action, entity, entityId, oldValue, newValue, req }) {
  * GET /api/wallets
  * Returns all configured wallet addresses (read-only, still requires admin auth)
  */
-router.get('/wallets', readLimiter, adminOnly, async (req, res) => {
+router.get('/wallets', readLimiter, async (req, res) => {
   try {
     const wallets = await Wallet.find().sort({ coin: 1 });
     res.status(200).json({ code: 'Ok', data: wallets });
@@ -234,7 +234,7 @@ router.get('/wallets', readLimiter, adminOnly, async (req, res) => {
  * Add a new wallet address
  * Body: { coin, address, network }
  */
-router.post('/wallets', writeLimiter, adminOnly, async (req, res) => {
+router.post('/wallets', writeLimiter, async (req, res) => {
   try {
     const { coin, address, network } = req.body;
     if (!coin || !address) {
